@@ -1,10 +1,13 @@
-use actix_web::{web, App, HttpRequest, HttpServer, Responder};
+use actix_web::{web, App, HttpRequest, HttpServer, HttpResponse};
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 
-fn greet(req: HttpRequest) -> impl Responder {
+fn greet(req: HttpRequest) -> HttpResponse {
     let name = req.match_info().get("name").unwrap_or("World");
-    format!("Hello {}!", &name)
+
+    HttpResponse::Ok()
+        .content_type("text/html; charset=utf-8")
+        .body(format!("Hello {}!", &name))
 }
 
 fn main() {
